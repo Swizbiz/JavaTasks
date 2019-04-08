@@ -66,7 +66,7 @@ public enum Column implements Columnable{
     @Override
     public boolean isShown() {
         boolean bol = false;
-        for (Column column : values()) {
+        for (Column column : getVisibleColumns()) {
             if (column.equals(this)) bol = true;
         }
         return bol;
