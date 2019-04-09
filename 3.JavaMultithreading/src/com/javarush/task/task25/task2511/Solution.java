@@ -14,7 +14,7 @@ public class Solution extends TimerTask {
             throw new NullPointerException();
         }
         this.original = original;
-        this.handler = null;    //init handler here
+        this.handler = (thread, exception) -> System.out.println(exception.getMessage().replaceAll(thread.getName(), thread.getName().replaceAll(".", "*"))); //init handler here
     }
 
     public void run() {
