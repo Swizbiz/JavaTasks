@@ -11,6 +11,7 @@ public class Solution {
     public static class CustomizedComparator<T> implements Comparator<T> {
     private Comparator<T>[] comparators;
 
+        @SafeVarargs
         public CustomizedComparator(Comparator<T>... comparators) {
             this.comparators = comparators;
         }
