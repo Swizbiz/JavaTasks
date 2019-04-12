@@ -34,6 +34,10 @@ public class Human implements Alive {
         nextId++;
     }
 
+    public String getPosition(){
+        return "Человек";
+    }
+
     public int getAge() {
         return age;
     }
@@ -74,5 +78,9 @@ public class Human implements Alive {
 
     public void printSize() {
         System.out.println("Рост: " + size[0] + " Вес: " + size[1]);
+    }
+
+    public void printData() {
+        System.out.println(String.format("%s: %s", getPosition(), name));
     }
 }
