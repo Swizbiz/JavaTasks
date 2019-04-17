@@ -16,6 +16,17 @@ public class Server {
             this.socket = socket;
         }
 
+        private void notifyUsers(Connection connection, String userName){
+            connectionMap.forEach((name, cnct) -> {if (!(userName.equals(name))){
+                try {
+                    connection.send(new Message(MessageType.USER_ADDED, name));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            });
+        }
+
         private String serverHandshake(Connection connection) throws IOException, ClassNotFoundException{
             while (true) {
                 connection.send(new Message(MessageType.NAME_REQUEST));
