@@ -51,6 +51,27 @@ public class Server {
                 else continue;
             }
         }
+
+        @Override
+        public void run() {
+            String clientName = null;
+            ConsoleHelper.writeMessage(socket.getRemoteSocketAddress() + "");
+            try (Connection connection = new Connection(socket)) {
+                clientName = serverHandshake(connection);
+                sendBroadcastMessage(new Message(MessageType.USER_ADDED, clientName));
+                notifyUsers(connection, clientName);
+                serverMainLoop(connection, clientName);
+                connectionMap.remove(clientName);
+            } catch (IOException | ClassNotFoundException e) {
+                ConsoleHelper.writeMessage("Error");
+                e.printStackTrace();
+            } finally {
+                if (clientName != null) {
+                    connectionMap.remove(clientName);
+                    sendBroadcastMessage(new Message(MessageType.USER_REMOVED, clientName));
+                }
+            }
+        }
     }
 
     public static void sendBroadcastMessage(Message message){
