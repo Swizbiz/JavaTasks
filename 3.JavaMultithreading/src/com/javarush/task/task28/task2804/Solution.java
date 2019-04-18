@@ -56,7 +56,6 @@ size = 8
     }
 
     public void stopUpdatingThread() throws InterruptedException {
-        t.stop();
         t.join();
     }
 
