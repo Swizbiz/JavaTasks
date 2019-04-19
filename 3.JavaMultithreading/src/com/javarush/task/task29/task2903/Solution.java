@@ -31,6 +31,7 @@ public class Solution {
             @Override
             public void run() {
                 final String name = "Thread #" + i;
+//                int randomInt = ThreadLocalRandom.current().nextInt(20);
                 int randomInt = RANDOM.nextInt(20);
                 String text = name + " вставил запись для " + randomInt;
 
