@@ -14,6 +14,9 @@ public class Solution {
 
     public static String convertToDecimalSystem(String s) {
         //напишите тут ваш код
-        return s;
+        if (s.startsWith("0x")) return Integer.toString(Integer.parseInt(s.substring(2), 16));
+        else if (s.startsWith("0b")) return Integer.toString(Integer.parseInt(s.substring(2), 2));
+        else if (s.startsWith("0")) return Integer.toString(Integer.parseInt(s.substring(1), 8));
+        else return s;
     }
 }
