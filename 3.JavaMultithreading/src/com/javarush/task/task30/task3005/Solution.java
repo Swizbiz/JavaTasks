@@ -12,9 +12,13 @@ public class Solution {
     }
 
     public static void checkAFlag(D d) {
-        if (d.cs.get(0).bs.get(0).as.get(0).flag) {
-            System.out.println("A's flag is true");
-        } else { //all other cases
+        try {
+            if (d.cs.get(0).bs.get(0).as.get(0).flag) {
+                System.out.println("A's flag is true");
+            } else { //all other cases
+                System.out.println("Oops!");
+            }
+        } catch (Exception e) {
             System.out.println("Oops!");
         }
     }
