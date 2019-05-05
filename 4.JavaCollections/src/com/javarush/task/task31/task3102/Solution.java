@@ -14,7 +14,11 @@ import java.util.stream.Collectors;
  */
 public class Solution {
     public static List<String> getFileTree(String root) throws IOException {
-        List<String> list = Files.walk(Paths.get(root),Integer.MAX_VALUE).map(Path::toFile).filter(File::isFile).map(File::getAbsolutePath).collect(Collectors.toList());
+        List<String> list = Files.walk(Paths.get(root),Integer.MAX_VALUE)
+                .map(Path::toFile)
+                .filter(File::isFile)
+                .map(File::getAbsolutePath)
+                .collect(Collectors.toList());
         return list;
 
     }
