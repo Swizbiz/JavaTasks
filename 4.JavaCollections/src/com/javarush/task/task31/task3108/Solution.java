@@ -16,6 +16,6 @@ public class Solution {
     }
 
     public static Path getDiffBetweenTwoPaths(Path path1, Path path2) {
-        return null;
+        return path1.toAbsolutePath().relativize(path2.toAbsolutePath());
     }
 }
