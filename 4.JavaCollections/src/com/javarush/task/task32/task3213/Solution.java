@@ -2,6 +2,8 @@ package com.javarush.task.task32.task3213;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.io.StringWriter;
+import java.nio.CharBuffer;
 
 /* 
 Шифр Цезаря
@@ -14,7 +16,13 @@ public class Solution {
     }
 
     public static String decode(StringReader reader, int key) throws IOException {
-
-        return null;
+        if (reader == null)
+            return "";
+        StringWriter stringWriter = new StringWriter();
+        int oneByte;
+        while ((oneByte = reader.read()) != -1 ){
+            stringWriter.write(oneByte + key);
+        }
+        return stringWriter.toString();
     }
 }
