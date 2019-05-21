@@ -16,6 +16,14 @@ public class Solution {
         test(solution.getProxy(Big.class));                         //true true false т.к. Big наследуется от Item
     }
 
+    public <T extends Item> T getProxy(Class<T> clazz, Class...interfacezz) {
+        Class[] interfaces = new Class[interfacezz.length+1];
+        interfaces[0] = clazz;
+        System.arraycopy(interfacezz, 0, interfaces, 1, interfacezz.length);
+
+        return (T) Proxy.newProxyInstance( this.getClass().getClassLoader(), interfaces, new ItemInvocationHandler() );
+
+    }
 
     private static void test(Object proxy) {
         boolean isItem = proxy instanceof Item;
