@@ -8,6 +8,10 @@ public class Tetris {
 
     }
 
+    public void run() {}
+
+    public void step() {}
+
     public Figure getFigure() {
         return figure;
     }
