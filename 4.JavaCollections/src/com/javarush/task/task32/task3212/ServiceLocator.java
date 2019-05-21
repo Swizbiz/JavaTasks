@@ -21,6 +21,13 @@ public class ServiceLocator {
      * @return Object mapped to the name in context
      */
     public static Service getService(String jndiName) {
-        return null;
+        Service service;
+        service = cache.getService(jndiName);
+        if (service == null) {
+            InitialContext initialContext = new InitialContext();
+            service = (Service) initialContext.lookup(jndiName);
+            cache.addService(service);
+        }
+        return service;
     }
 }
