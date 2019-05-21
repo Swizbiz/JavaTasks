@@ -1,6 +1,7 @@
 package com.javarush.task.task22.task2213;
 
 import java.awt.event.KeyEvent;
+import java.util.Random;
 
 /**
  * Класс Tetris - содержит основной функционал игры.
@@ -88,6 +89,13 @@ public class Tetris {
         //удаляем заполненные линии
         //создаем новую фигурку
 
+        figure.down();
+        if (!figure.isCurrentPositionAvailable()) {
+            figure.up();
+            figure.landed();
+            field.removeFullLines();
+            figure = FigureFactory.createRandomFigure(field.getWidth()/2, field.getHeight());
+        }
     }
 
     /**
