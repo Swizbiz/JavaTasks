@@ -2,6 +2,7 @@ package com.javarush.task.task32.task3211;
 
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
+import java.math.BigInteger;
 import java.security.MessageDigest;
 
 /* 
@@ -19,7 +20,14 @@ public class Solution {
     }
 
     public static boolean compareMD5(ByteArrayOutputStream byteArrayOutputStream, String md5) throws Exception {
-
-        return false;
+        MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+        messageDigest.update(byteArrayOutputStream.toByteArray());
+        //получаем MD5-хеш ( без лидирующих нулей )
+        StringBuilder s = new StringBuilder(new BigInteger(1, messageDigest.digest()).toString(16));
+        //дополняем нулями до 32 символов, в случае необходимости
+        while(s.length() < 32 ){
+            s.insert(0, "0");
+        }
+        return MessageDigest.isEqual(md5.getBytes(), s.toString().getBytes() );
     }
 }
