@@ -24,25 +24,35 @@ public class Figure {
     }
 
     public void left() {
+        if (isCurrentPositionAvailable())
+            x--;
     }
 
     public void right() {
+        if (isCurrentPositionAvailable())
+            x++;
     }
 
     public void down() {
+        if (isCurrentPositionAvailable())
+            y++;
     }
 
     public void up() {
+        if (isCurrentPositionAvailable())
+            y--;
     }
 
     public void rotate() {
     }
 
-    public void downMaximum() {}
+    public void downMaximum() {
+    }
 
     public boolean isCurrentPositionAvailable() {
         return true;
     }
 
-    public void landed() {}
+    public void landed() {
+    }
 }
