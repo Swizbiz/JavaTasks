@@ -1,7 +1,12 @@
 package com.javarush.task.task33.task3305;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import java.util.List;
 
+@JsonTypeInfo(use = JsonTypeInfo.Id.MINIMAL_CLASS,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "className")
 public class ParkingLot {
     public String name;
     public String city;
