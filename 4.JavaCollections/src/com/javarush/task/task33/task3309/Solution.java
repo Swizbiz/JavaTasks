@@ -21,37 +21,57 @@ import java.io.StringWriter;
 */
 public class Solution {
     public static String toXmlWithComment(Object obj, String tagName, String comment) {
-        StringWriter write = new StringWriter();
+        StringWriter stringWriter = new StringWriter();
         try {
+            //Создаем новый инстанс JAXBContext
             JAXBContext context = JAXBContext.newInstance(obj.getClass());
+            //Из инстанса контекста получаем marshaller
             Marshaller marshaller = context.createMarshaller();
+            //У marshaller устанавливаем свойство Marshaller.JAXB_FORMATTED_OUTPUT в истину, чтобы вывод был разбит по строчкам
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            //Создаем фабрику DocumentBuilderFactory
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            //Для преобразования CDATA узлов в текст устанавливаем factory.setCoalescing(true)
             factory.setCoalescing(true);
+            //Создаем новый DocumentBuilder
             DocumentBuilder documentBuilder = factory.newDocumentBuilder();
+            //С помощью билдера создаем новый документ
             Document document = documentBuilder.newDocument();
+            //Маршализуем объект в документ
             marshaller.marshal(obj, document);
+            //из документа получаем список всех узлов
             NodeList nodeList = document.getElementsByTagName("*");
+            //Перебираем узлы
             for (int i = 0; i < nodeList.getLength(); i++) {
+                //Получаем узел
                 Node node = nodeList.item(i);
+                //Если имя узла соответствует заданному, то вставляем перед ним comment
                 if (node.getNodeName().equals(tagName))
+                    //заменяем
                     node.getParentNode().insertBefore(document.createComment(comment), node);
+                //Если тип первого дочернего узла ревен Node.TEXT_NODE и содержит символы <>&\', то заменяем узел на CDATASection
                 if (node.getFirstChild().getNodeType() == node.TEXT_NODE && node.getFirstChild().getTextContent().matches(".*[<>&\'\"].*")) {
+                    //Создаем CDATASection из контекста дочернего узла
                     CDATASection cdataSection = document.createCDATASection(node.getFirstChild().getTextContent());
+                    //заменяем
                     node.replaceChild(cdataSection, node.getFirstChild());
                 }
             }
+            //Получаем инстанс TransformerFactory
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            //Получаем transformer
             Transformer transformer = transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");  // this allows you make \n
-            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+            //Устанавливаем свойства вывода
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");  // для пеерноса строк
+            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8"); // кодировка
             transformer.setOutputProperty(OutputKeys.STANDALONE, "no");
-            transformer.transform(new DOMSource(document), new StreamResult(write));
+            //Трансформируем данные из документа в StringWriter
+            transformer.transform(new DOMSource(document), new StreamResult(stringWriter));
         } catch (JAXBException | ParserConfigurationException | TransformerException e) {
             e.printStackTrace();
         }
 
-        return write.toString();
+        return stringWriter.toString();
     }
 
     public static void main(String[] args) {
