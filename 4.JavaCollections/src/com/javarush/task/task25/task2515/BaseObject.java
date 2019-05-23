@@ -34,6 +34,21 @@ public abstract class BaseObject {
         return isAlive;
     }
 
+    public void draw() {
+    }
+
+    public void move() {
+    }
+
+    public  void die() {
+        isAlive = false;
+    }
+
+    public boolean isIntersect(BaseObject o) {
+        return (Math.hypot(Math.abs(x - o.x), Math.abs(y - o.y)))
+                < Math.max(radius, o.radius);
+    }
+
     public BaseObject(double x, double y, double radius) {
         this.x = x;
         this.y = y;
