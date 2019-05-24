@@ -10,6 +10,7 @@ public class Solution {
 
         for (long i = 0; i < 2_500_000; i++) {
             cache.put(i, new AnyObject(i, null, null));
+            cache.put(i, new AnyObject(i, null, null));
         }
     }
 }
