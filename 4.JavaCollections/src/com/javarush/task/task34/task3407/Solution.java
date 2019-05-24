@@ -86,5 +86,13 @@ public class Solution {
             System.out.println(count + " objects are in the queue of phantom reference");
             System.out.println("It took " + getTime() + " sec");
         }
+
+        public List<PhantomReference<Monkey>> getPopulatedList() {
+            List<PhantomReference<Monkey>> phantomReferenceList = new ArrayList<>();
+            for (int i = 0; i < 200; i++) {
+                phantomReferenceList.add(new PhantomReference<>(new Monkey(), helper.getQueue()));
+            }
+            return phantomReferenceList;
+        }
     }
 }
