@@ -1,8 +1,10 @@
 package com.javarush.task.task36.task3606;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +19,18 @@ public class Solution {
         this.packageName = packageName;
     }
 
+    public class ClassFromPath extends ClassLoader {
+        public Class<?> load(Path path) {
+            try {
+                byte[] b = Files.readAllBytes(path);
+                return defineClass(null, b, 0, b.length);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
     public static void main(String[] args) throws ClassNotFoundException {
         Solution solution = new Solution(Solution.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "com/javarush/task/task36/task3606/data/second");
         solution.scanFileSystem();
@@ -26,9 +40,29 @@ public class Solution {
     }
 
     public void scanFileSystem() throws ClassNotFoundException {
+        File[] files = new File(packageName).listFiles();
+        for (File file : files) {
+            Class clazz = new ClassFromPath().load(file.toPath());
+            hiddenClasses.add(clazz);
+        }
     }
 
     public HiddenClass getHiddenClassObjectByKey(String key) {
+        for (Class<?> clazz : hiddenClasses) {
+            if (clazz.getSimpleName().toLowerCase().startsWith(key.toLowerCase())) {
+                try {
+                    Constructor[] constructors = clazz.getDeclaredConstructors();
+                    for (Constructor constructor : constructors) {
+                        if (constructor.getParameterTypes().length == 0) {
+                            constructor.setAccessible(true);
+                            return (HiddenClass) constructor.newInstance(null);
+                        }
+                    }
+                } catch (Exception e) {
+                    return null;
+                }
+            }
+        }
         return null;
     }
 }
