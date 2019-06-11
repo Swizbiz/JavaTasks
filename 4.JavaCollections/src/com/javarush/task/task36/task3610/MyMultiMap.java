@@ -38,8 +38,7 @@ public class MyMultiMap<K, V> extends HashMap<K, V> implements Cloneable, Serial
         V obj = null;
         if (containsKey(key)) {
             List<V> list = map.get(key);
-            obj = list.get(0);
-            list.remove(0);
+            obj = list.remove(0);
             if (list.size() == 0)
                 map.remove(key);
         }
